@@ -33,6 +33,25 @@ class MotorController {
       this.next(error);
     }
   }
+
+  public async find() {
+    try {
+      const findAllMotors = await this.service.find();
+      return this.res.status(200).json(findAllMotors);
+    } catch (error) {
+      this.next(error);
+    }
+  }
+
+  public async findById() {
+    const { id } = this.req.params;
+    try {
+      const findMotor = await this.service.findById(id);
+      return this.res.status(200).json(findMotor);
+    } catch (error) {
+      this.next(error);
+    }
+  }
 }
 
 export default MotorController;

@@ -30,6 +30,13 @@ class CarService {
     if (!findCar) throw new CreatingError({ status: 404, message: 'Car not found' });
     return this.createCarDomain(findCar);
   }
+
+  public async update(id: string, car: ICar) {
+    const carODM = new CarODM();
+    const findAndUpdate = await carODM.update(id, car);
+    if (!findAndUpdate) throw new CreatingError({ status: 404, message: 'Car not found' });
+    return this.createCarDomain(findAndUpdate);
+  }
 }
 
 export default CarService;

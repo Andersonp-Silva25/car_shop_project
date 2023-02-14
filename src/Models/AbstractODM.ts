@@ -4,6 +4,7 @@ import {
   models,
   model,
   isValidObjectId,
+  UpdateQuery,
 } from 'mongoose';
 import CreatingError from '../Utils/CreatingError';
 
@@ -29,6 +30,15 @@ abstract class AbstractODM<T> {
   public async findById(id: string): Promise<T | null> {
     if (!isValidObjectId(id)) throw new CreatingError({ status: 422, message: 'Invalid mongo id' });
     return this.model.findById(id);
+  }
+
+  public async update(id: string, car: Partial<T>): Promise<T | null> {
+    if (!isValidObjectId(id)) throw new CreatingError({ status: 422, message: 'Invalid mongo id' });
+    return this.model.findByIdAndUpdate(
+      { _id: id },
+      { ...car } as UpdateQuery<T>,
+      { new: true },
+    );
   }
 }
 

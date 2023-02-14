@@ -33,4 +33,15 @@ const listCar: ICar[] = [
   },
 ];
 
-export { newCar, listCar };
+const updatedCar: ICar = {
+  id: '634852326b35b59438fbea2f',
+  model: 'Marea',
+  year: 2002,
+  color: 'Yellow',
+  status: true,
+  buyValue: 15.990,
+  doorsQty: 4,
+  seatsQty: 5,
+};
+
+export { newCar, listCar, updatedCar };

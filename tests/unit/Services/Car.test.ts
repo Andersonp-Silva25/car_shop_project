@@ -3,7 +3,7 @@ import Sinon from 'sinon';
 import { Model } from 'mongoose';
 import CarService from '../../../src/Services/CarService';
 import Car from '../../../src/Domains/Car';
-import { newCar, listCar } from './Mocks/CarMock';
+import { newCar, listCar, updatedCar } from './Mocks/CarMock';
 
 describe('Testando as funcionalidade de CarService', function () {
   it('Deve cadastrar um novo carro', async function () {
@@ -44,5 +44,21 @@ describe('Testando as funcionalidade de CarService', function () {
         
     // Assert
     expect(result).to.be.deep.equal(listCar[0]);
+  });
+
+  it('Deve atualizar um carro pelo seu id', async function () {
+    // Arrange
+    Sinon.stub(Model, 'findByIdAndUpdate').resolves(updatedCar);
+
+    // Action
+    const service = new CarService();
+    const result = await service.update('634852326b35b59438fbea2f', newCar);
+        
+    // Assert
+    expect(result).to.be.deep.equal(updatedCar);
+  });
+
+  afterEach(function () {
+    Sinon.restore();
   });
 });

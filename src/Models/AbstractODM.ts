@@ -3,7 +3,9 @@ import {
   Model,
   models,
   model,
+  isValidObjectId,
 } from 'mongoose';
+import CreatingError from '../Utils/CreatingError';
 
 abstract class AbstractODM<T> {
   protected model: Model<T>;
@@ -18,6 +20,15 @@ abstract class AbstractODM<T> {
 
   public async create(obj: T): Promise<T> {
     return this.model.create({ ...obj });
+  }
+
+  public async find(): Promise<T[]> {
+    return this.model.find();
+  }
+
+  public async findById(id: string): Promise<T | null> {
+    if (!isValidObjectId(id)) throw new CreatingError({ status: 422, message: 'Invalid mongo id' });
+    return this.model.findById(id);
   }
 }
 

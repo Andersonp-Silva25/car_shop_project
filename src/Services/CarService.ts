@@ -37,6 +37,12 @@ class CarService {
     if (!findAndUpdate) throw new CreatingError({ status: 404, message: 'Car not found' });
     return this.createCarDomain(findAndUpdate);
   }
+
+  public async delete(id: string) {
+    const carODM = new CarODM();
+    const findAndDelete = await carODM.delelte(id);
+    if (!findAndDelete) throw new CreatingError({ status: 404, message: 'Car not founds' });
+  }
 }
 
 export default CarService;

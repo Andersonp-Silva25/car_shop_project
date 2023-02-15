@@ -30,6 +30,13 @@ class Motorcycles {
     if (!findMotor) throw new CreatingError({ status: 404, message: 'Motorcycle not found' });
     return this.createMotorDomain(findMotor);
   }
+
+  public async update(id: string, motor: IMotorcycle) {
+    const motorODM = new MotorcycleODM();
+    const findAndUpdate = await motorODM.update(id, motor);
+    if (!findAndUpdate) throw new CreatingError({ status: 404, message: 'Motorcycle not found' });
+    return this.createMotorDomain(findAndUpdate);
+  }
 }
 
 export default Motorcycles;

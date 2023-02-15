@@ -2,6 +2,7 @@ import Car from '../Domains/Car';
 import ICar from '../Interfaces/ICar';
 import CarODM from '../Models/CarODM';
 import CreatingError from '../Utils/CreatingError';
+import ERROR_MESSAGE from '../Utils/ErrorMessage';
 
 class CarService {
   private createCarDomain(car: ICar | null): Car | null {
@@ -27,21 +28,21 @@ class CarService {
   public async findById(id: string) {
     const carODM = new CarODM();
     const findCar = await carODM.findById(id);
-    if (!findCar) throw new CreatingError({ status: 404, message: 'Car not found' });
+    if (!findCar) throw new CreatingError(ERROR_MESSAGE.CAR_NOT_FOUND);
     return this.createCarDomain(findCar);
   }
 
   public async update(id: string, car: ICar) {
     const carODM = new CarODM();
     const findAndUpdate = await carODM.update(id, car);
-    if (!findAndUpdate) throw new CreatingError({ status: 404, message: 'Car not found' });
+    if (!findAndUpdate) throw new CreatingError(ERROR_MESSAGE.CAR_NOT_FOUND);
     return this.createCarDomain(findAndUpdate);
   }
 
   public async delete(id: string) {
     const carODM = new CarODM();
     const findAndDelete = await carODM.delelte(id);
-    if (!findAndDelete) throw new CreatingError({ status: 404, message: 'Car not founds' });
+    if (!findAndDelete) throw new CreatingError(ERROR_MESSAGE.CAR_NOT_FOUND);
   }
 }
 

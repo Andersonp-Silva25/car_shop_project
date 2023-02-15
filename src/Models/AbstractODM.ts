@@ -7,6 +7,7 @@ import {
   UpdateQuery,
 } from 'mongoose';
 import CreatingError from '../Utils/CreatingError';
+import ERROR_MESSAGE from '../Utils/ErrorMessage';
 
 abstract class AbstractODM<T> {
   protected model: Model<T>;
@@ -28,21 +29,21 @@ abstract class AbstractODM<T> {
   }
 
   public async findById(id: string): Promise<T | null> {
-    if (!isValidObjectId(id)) throw new CreatingError({ status: 422, message: 'Invalid mongo id' });
+    if (!isValidObjectId(id)) throw new CreatingError(ERROR_MESSAGE.INVALID_MONGO_ID);
     return this.model.findById(id);
   }
 
-  public async update(id: string, car: Partial<T>): Promise<T | null> {
-    if (!isValidObjectId(id)) throw new CreatingError({ status: 422, message: 'Invalid mongo id' });
+  public async update(id: string, vehicle: Partial<T>): Promise<T | null> {
+    if (!isValidObjectId(id)) throw new CreatingError(ERROR_MESSAGE.INVALID_MONGO_ID);
     return this.model.findByIdAndUpdate(
       { _id: id },
-      { ...car } as UpdateQuery<T>,
+      { ...vehicle } as UpdateQuery<T>,
       { new: true },
     );
   }
 
   public async delelte(id: string): Promise<T | null> {
-    if (!isValidObjectId(id)) throw new CreatingError({ status: 422, message: 'Invalid mongoId' });
+    if (!isValidObjectId(id)) throw new CreatingError(ERROR_MESSAGE.INVALID_MONGO_ID);
     return this.model.findByIdAndDelete(id);
   }
 }

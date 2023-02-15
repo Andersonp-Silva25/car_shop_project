@@ -5,11 +5,8 @@ import CreatingError from '../Utils/CreatingError';
 import ERROR_MESSAGE from '../Utils/ErrorMessage';
 
 class Motorcycles {
-  private createMotorDomain(motor: IMotorcycle | null): Motorcycle | null {
-    if (motor) {
-      return new Motorcycle(motor);
-    }
-    return null;
+  private createMotorDomain(motor: IMotorcycle): Motorcycle {
+    return new Motorcycle(motor);
   }
 
   public async create(motor: IMotorcycle) {

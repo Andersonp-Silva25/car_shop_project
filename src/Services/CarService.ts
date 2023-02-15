@@ -5,11 +5,8 @@ import CreatingError from '../Utils/CreatingError';
 import ERROR_MESSAGE from '../Utils/ErrorMessage';
 
 class CarService {
-  private createCarDomain(car: ICar | null): Car | null {
-    if (car) {
-      return new Car(car);
-    }
-    return null;
+  private createCarDomain(car: ICar): Car {
+    return new Car(car);
   }
 
   public async create(car: ICar) {

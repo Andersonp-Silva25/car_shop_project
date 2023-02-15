@@ -3,7 +3,7 @@ import Sinon from 'sinon';
 import { Model } from 'mongoose';
 import CarService from '../../../src/Services/CarService';
 import Car from '../../../src/Domains/Car';
-import { newCar, listCar, updatedCar } from './Mocks/CarMock';
+import { newCar, listCar, updatedCar, deletedCar } from './Mocks/CarMock';
 
 describe('Testando as funcionalidade de CarService', function () {
   it('Deve cadastrar um novo carro', async function () {
@@ -46,6 +46,34 @@ describe('Testando as funcionalidade de CarService', function () {
     expect(result).to.be.deep.equal(listCar[0]);
   });
 
+  it('Não devera buscar carros se o mongoId for invalido', async function () {
+    // Arrange
+    Sinon.stub(Model, 'findById').resolves(listCar[0]);
+
+    try {
+    // Action
+      const service = new CarService();
+      await service.findById('63');
+    } catch (error) {    
+    // Assert
+      expect((error as Error).message).to.be.deep.equal('Invalid mongo id');
+    }
+  });
+
+  it('Não devera buscar carros que não existam', async function () {
+    // Arrange
+    Sinon.stub(Model, 'findById').resolves(listCar[0]);
+
+    try {
+    // Action
+      const service = new CarService();
+      await service.findById('634852326b35b59438fbea56');
+    } catch (error) {    
+    // Assert
+      expect((error as Error).message).to.be.deep.equal('Car not found');
+    }
+  });
+
   it('Deve atualizar um carro pelo seu id', async function () {
     // Arrange
     Sinon.stub(Model, 'findByIdAndUpdate').resolves(updatedCar);
@@ -56,6 +84,20 @@ describe('Testando as funcionalidade de CarService', function () {
         
     // Assert
     expect(result).to.be.deep.equal(updatedCar);
+  });
+
+  it('Deve excluir um carro pelo seu id', async function () {
+    // Arrange
+    Sinon.stub(Model, 'findByIdAndDelete').resolves(deletedCar);
+    Sinon.stub(Model, 'find').resolves(deletedCar);
+
+    // Action
+    const service = new CarService();
+    await service.delete('634852326b35b59438fbea2f');
+    const result = await service.find();
+        
+    // Assert
+    expect(result).to.be.deep.equal(deletedCar);
   });
 
   afterEach(function () {

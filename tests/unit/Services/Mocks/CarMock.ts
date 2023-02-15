@@ -44,4 +44,17 @@ const updatedCar: ICar = {
   seatsQty: 5,
 };
 
-export { newCar, listCar, updatedCar };
+const deletedCar: ICar[] = [
+  {
+    id: '634852326b35b59438fbea31',
+    model: 'Tempra',
+    year: 1995,
+    color: 'Black',
+    status: false,
+    buyValue: 39,
+    doorsQty: 2,
+    seatsQty: 5,
+  },
+];
+
+export { newCar, listCar, updatedCar, deletedCar };
